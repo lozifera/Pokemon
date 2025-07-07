@@ -1,0 +1,308 @@
+/* Estilos para el formulario de habilidades */
+.fo-habilidades-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.fo-habilidades-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.fo-habilidades-header h2 {
+  color: #333;
+  font-size: 2rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background-color: #5a6268;
+}
+
+/* Contenedor del formulario */
+.fo-habilidades-form-container {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.fo-habilidades-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Grupos de formulario */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Botones */
+.btn-submit {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn-submit:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Mensajes */
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #f5c6cb;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #c3e6cb;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  color: #666;
+}
+
+/* Lista de habilidades */
+.fo-habilidades-list-container {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.fo-habilidades-list-container h3 {
+  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.habilidades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.habilidad-card {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.habilidad-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.habilidad-info h4 {
+  color: #333;
+  font-size: 1.2rem;
+  margin: 0 0 10px 0;
+  font-weight: 600;
+}
+
+.habilidad-id {
+  font-size: 12px;
+  color: #6c757d;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+.habilidad-descripcion {
+  color: #495057;
+  font-size: 14px;
+  line-height: 1.4;
+  margin: 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.habilidad-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.btn-edit {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  flex: 1;
+  transition: background-color 0.3s ease;
+}
+
+.btn-edit:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  flex: 1;
+  transition: background-color 0.3s ease;
+}
+
+.btn-delete:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+.btn-edit:disabled,
+.btn-delete:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.no-habilidades {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 16px;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .fo-habilidades-container {
+    padding: 15px;
+  }
+  
+  .fo-habilidades-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .fo-habilidades-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .fo-habilidades-form-container,
+  .fo-habilidades-list-container {
+    padding: 20px;
+  }
+  
+  .habilidades-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .habilidad-actions {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .fo-habilidades-container {
+    padding: 10px;
+  }
+  
+  .fo-habilidades-form-container,
+  .fo-habilidades-list-container {
+    padding: 15px;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    font-size: 14px;
+  }
+  
+  .btn-submit {
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}

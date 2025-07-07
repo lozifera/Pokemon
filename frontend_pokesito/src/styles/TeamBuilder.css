@@ -1,0 +1,711 @@
+/* Team Builder Styles */
+.team-builder-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+.team-builder-header {
+  text-align: center;
+  margin-bottom: 30px;
+  color: white;
+}
+
+.team-builder-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.team-builder-header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.team-builder-content {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 30px;
+  height: calc(100vh - 200px);
+}
+
+/* Panel de equipos */
+.teams-panel {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  overflow-y: auto;
+}
+
+.teams-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 15px;
+}
+
+.teams-header h3 {
+  color: #333;
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.btn-create-team {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-create-team:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.btn-create-team:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Formulario de crear equipo */
+.create-team-form {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border: 2px dashed #4CAF50;
+}
+
+.create-team-form input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.create-team-form input:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.form-buttons button {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.form-buttons button[type="submit"] {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+}
+
+.form-buttons button[type="button"] {
+  background: #6c757d;
+  color: white;
+}
+
+.form-buttons button:hover {
+  transform: translateY(-1px);
+}
+
+/* Lista de equipos */
+.teams-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.team-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.team-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border-color: #007bff;
+}
+
+.team-item.selected {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,123,255,0.3);
+}
+
+.team-item.selected .team-info h4 {
+  color: white;
+}
+
+.team-item.selected .team-info small {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.team-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.team-info small {
+  opacity: 0.7;
+}
+
+.btn-delete-team {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-delete-team:hover {
+  background: #c82333;
+  transform: scale(1.1);
+}
+
+.loading, .no-teams, .no-team-selected {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.no-teams p {
+  margin: 10px 0;
+}
+
+/* Panel de detalle del equipo */
+.team-detail-panel {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  overflow-y: auto;
+}
+
+.team-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  border-bottom: 3px solid #007bff;
+  padding-bottom: 15px;
+}
+
+.team-detail-header h3 {
+  color: #333;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.btn-add-pokemon {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-add-pokemon:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.btn-add-pokemon:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Selector de Pokémon */
+.pokemon-selector {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  border: 2px solid #007bff;
+}
+
+.pokemon-selector h4 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 1.3rem;
+}
+
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 15px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.pokemon-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.pokemon-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  border-color: #007bff;
+}
+
+.pokemon-card img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.pokemon-card span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  color: #333;
+}
+
+/* Pokémon del equipo */
+.team-pokemon {
+  margin-top: 20px;
+}
+
+.pokemon-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.pokemon-slot {
+  border: 3px dashed #ddd;
+  border-radius: 15px;
+  padding: 20px;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  transition: all 0.3s ease;
+}
+
+.pokemon-slot:hover {
+  border-color: #007bff;
+  background: #f0f7ff;
+}
+
+.pokemon-in-team {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: linear-gradient(135deg, #fff, #f8f9fa);
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border: 2px solid #007bff;
+}
+
+.pokemon-in-team img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-right: 15px;
+  border-radius: 8px;
+}
+
+.pokemon-info {
+  flex: 1;
+  color: #333;
+}
+
+.pokemon-info h4 {
+  margin: 0 0 5px 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.pokemon-info small {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.btn-remove-pokemon {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-remove-pokemon:hover {
+  background: #c82333;
+  transform: scale(1.1);
+}
+
+.empty-slot {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+.empty-slot span {
+  display: block;
+  font-size: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .team-builder-content {
+    grid-template-columns: 300px 1fr;
+  }
+}
+
+@media (max-width: 968px) {
+  .team-builder-content {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  
+  .teams-panel {
+    margin-bottom: 20px;
+    max-height: 400px;
+  }
+  
+  .pokemon-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+  
+  .pokemon-slots {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .team-builder-container {
+    padding: 15px;
+  }
+  
+  .team-builder-header h2 {
+    font-size: 2rem;
+  }
+  
+  .teams-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+  
+  .team-detail-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+}
+
+/* Modal del Editor de Pokémon */
+.pokemon-editor-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.pokemon-editor-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow: auto;
+  width: 90%;
+  color: #333;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 15px;
+}
+
+.editor-header h3 {
+  color: #333;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.editor-header button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+  padding: 5px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.editor-header button:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.editor-form {
+  display: grid;
+  gap: 20px;
+}
+
+.basic-info h4,
+.ivs-section h4,
+.evs-section h4 {
+  color: #333;
+  margin: 0 0 15px 0;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 8px;
+}
+
+.basic-info label,
+.ivs-section label,
+.evs-section label {
+  display: block;
+  color: #555;
+  font-weight: 600;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.basic-info input,
+.basic-info select,
+.ivs-section input,
+.evs-section input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #333;
+  background-color: white;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.basic-info input:focus,
+.basic-info select:focus,
+.ivs-section input:focus,
+.evs-section input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+.basic-info div,
+.ivs-section div,
+.evs-section div {
+  margin-bottom: 15px;
+}
+
+.editor-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid #e9ecef;
+}
+
+.editor-actions button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.editor-actions button:first-child {
+  background-color: #6c757d;
+  color: white;
+}
+
+.editor-actions button:first-child:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+.editor-actions button:last-child {
+  background-color: #28a745;
+  color: white;
+}
+
+.editor-actions button:last-child:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+.evs-section > div:last-child {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #666;
+  border: 1px solid #e9ecef;
+}
+
+/* Mejoras para los botones de acción de Pokémon */
+.pokemon-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-edit-pokemon,
+.btn-remove-pokemon {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-edit-pokemon {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-edit-pokemon:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.btn-remove-pokemon {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-remove-pokemon:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+/* Mejoras para el header de acciones del equipo */
+.team-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.btn-test-endpoint {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-test-endpoint:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+/* Responsive para el modal */
+@media (max-width: 768px) {
+  .pokemon-editor-content {
+    width: 95%;
+    max-height: 90vh;
+    padding: 15px;
+  }
+  
+  .editor-header h3 {
+    font-size: 1.2rem;
+  }
+  
+  .basic-info > div,
+  .ivs-section > div,
+  .evs-section > div {
+    grid-template-columns: 1fr;
+  }
+  
+  .editor-actions {
+    flex-direction: column;
+  }
+  
+  .editor-actions button {
+    width: 100%;
+  }
+}

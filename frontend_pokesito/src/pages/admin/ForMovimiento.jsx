@@ -26,59 +26,97 @@ function ForMovimiento() {
 
   // Cargar datos al montar el componente
   useEffect(() => {
+    console.log('🎯 ForMovimiento: Componente montado, iniciando carga de datos')
+    
+    // Función de diagnóstico
+    const diagnosticarConexion = async () => {
+      console.log('🔍 Diagnosticando conexión al backend...')
+      try {
+        const response = await fetch('http://localhost:3001/api/tipos')
+        console.log('🔗 Estado de conexión con /api/tipos:', response.status)
+        
+        const response2 = await fetch('http://localhost:3001/api/movimientos')
+        console.log('🔗 Estado de conexión con /api/movimientos:', response2.status)
+        
+        const response3 = await fetch('http://localhost:3001/api/cat')
+        console.log('🔗 Estado de conexión con /api/cat:', response3.status)
+      } catch (error) {
+        console.error('❌ Error de conexión:', error)
+      }
+    }
+    
+    diagnosticarConexion()
     loadMovimientos()
     loadTipos()
     loadCategorias()
   }, [])
 
   const loadMovimientos = async () => {
+    console.log('🔄 Iniciando carga de movimientos...')
     setLoading(true)
     try {
+      console.log('📡 Llamando a movimientosService.getAllMovimientos()')
       const result = await movimientosService.getAllMovimientos()
+      console.log('📦 Respuesta de movimientos:', result)
+      
       if (result.success) {
         const movimientosData = result.data || []
+        console.log('✅ Movimientos obtenidos:', movimientosData)
         setMovimientos(Array.isArray(movimientosData) ? movimientosData : [])
       } else {
+        console.error('❌ Error en resultado de movimientos:', result.message)
         setError(result.message)
         setMovimientos([])
       }
     } catch (error) {
+      console.error('💥 Error al cargar movimientos:', error)
       setError('Error al cargar movimientos')
       setMovimientos([])
-      console.error('Error:', error)
     } finally {
+      console.log('🏁 Finalizando carga de movimientos')
       setLoading(false)
     }
   }
 
   const loadTipos = async () => {
+    console.log('🔄 Iniciando carga de tipos...')
     try {
+      console.log('📡 Llamando a tipoService.getAllTipos()')
       const result = await tipoService.getAllTipos()
+      console.log('📦 Respuesta de tipos:', result)
+      
       if (result.success) {
-        // Manejar la estructura de datos igual que en FoTipo.jsx
-        const tiposData = result.data?.data || result.data || []
+        // El servicio ya devuelve directamente el array de tipos
+        const tiposData = result.data || []
+        console.log('✅ Tipos obtenidos:', tiposData)
+        console.log('🔢 Cantidad de tipos:', tiposData.length)
         setTipos(Array.isArray(tiposData) ? tiposData : [])
       } else {
-        console.error('Error al cargar tipos:', result.message)
+        console.error('❌ Error al cargar tipos:', result.message)
         setTipos([])
       }
     } catch (error) {
-      console.error('Error al cargar tipos:', error)
+      console.error('💥 Error al cargar tipos:', error)
       setTipos([])
     }
   }
 
   const loadCategorias = async () => {
+    console.log('🔄 Iniciando carga de categorías...')
     try {
+      console.log('📡 Llamando a catService.getAllCategorias()')
       const result = await catService.getAllCategorias()
+      console.log('📦 Respuesta de categorías:', result)
+      
       if (result.success) {
         const categoriasData = result.data || []
+        console.log('✅ Categorías obtenidas:', categoriasData)
         setCategorias(Array.isArray(categoriasData) ? categoriasData : [])
       } else {
-        console.error('Error al cargar categorías:', result.message)
+        console.error('❌ Error al cargar categorías:', result.message)
       }
     } catch (error) {
-      console.error('Error al cargar categorías:', error)
+      console.error('💥 Error al cargar categorías:', error)
     }
   }
 
@@ -255,7 +293,9 @@ function ForMovimiento() {
                 required
                 disabled={loading}
               >
-                <option value="">Seleccionar tipo</option>
+                <option value="">
+                  {tipos.length === 0 ? 'Cargando tipos...' : 'Seleccionar tipo'}
+                </option>
                 {tipos.map(tipo => (
                   <option key={tipo.id_tipo} value={tipo.id_tipo}>
                     {tipo.nombre}
@@ -276,7 +316,9 @@ function ForMovimiento() {
                 required
                 disabled={loading}
               >
-                <option value="">Seleccionar categoría</option>
+                <option value="">
+                  {categorias.length === 0 ? 'Cargando categorías...' : 'Seleccionar categoría'}
+                </option>
                 {categorias.map(categoria => (
                   <option key={categoria.id_cat} value={categoria.id_cat}>
                     {categoria.nombre}
@@ -355,7 +397,21 @@ function ForMovimiento() {
       {/* Lista de movimientos */}
       <div className="for-movimiento-list-container">
         <h3>Movimientos Existentes</h3>
-        {loading && <div className="loading">Cargando movimientos...</div>}
+        
+        {loading && (
+          <div className="loading-state">
+            <div className="loading-spinner"></div>
+            <div className="loading-message">Cargando movimientos...</div>
+          </div>
+        )}
+        
+        {!loading && (
+          <div className="data-info">
+            <p>📊 Movimientos cargados: {movimientos.length}</p>
+            <p>🏷️ Tipos disponibles: {tipos.length}</p>
+            <p>📂 Categorías disponibles: {categorias.length}</p>
+          </div>
+        )}
         
         <div className="movimientos-grid">
           {Array.isArray(movimientos) && movimientos.map((movimiento) => (

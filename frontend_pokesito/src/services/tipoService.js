@@ -39,18 +39,27 @@ apiClient.interceptors.response.use(
 export const tipoService = {
   // Obtener todos los tipos
   getAllTipos: async () => {
+    console.log('🚀 tipoService: Iniciando getAllTipos')
     try {
+      console.log('🌐 tipoService: Haciendo petición GET a /tipos')
       const response = await apiClient.get('/tipos')
+      console.log('📡 tipoService: Respuesta completa:', response)
+      console.log('📦 tipoService: Data de respuesta:', response.data)
+      
+      // El backend devuelve { success: true, message: "...", data: [...] }
       return {
         success: true,
-        data: response.data.datos || response.data, // Manejar tanto 'datos' como 'data'
-        message: response.data.mensaje || 'Tipos obtenidos exitosamente'
+        data: response.data.data, // Aquí está el array de tipos
+        message: response.data.message || 'Tipos obtenidos exitosamente'
       }
     } catch (error) {
+      console.error('💥 tipoService: Error en getAllTipos:', error)
+      console.error('📋 tipoService: Error response:', error.response)
+      
       return {
         success: false,
         data: null,
-        message: error.response?.data?.mensaje || error.response?.data?.message || 'Error al obtener tipos'
+        message: error.response?.data?.message || error.message || 'Error al obtener tipos'
       }
     }
   },

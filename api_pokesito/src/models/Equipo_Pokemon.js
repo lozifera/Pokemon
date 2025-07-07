@@ -29,19 +29,19 @@ module.exports = (sequelize) => {
         },
         id_detalle: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true
         },
         id_articulo: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true
         },
         id_estadisticas: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true
         },
         id_habilidad: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true
         }
     }, {
         tableName: 'Equipo_Pokemon',

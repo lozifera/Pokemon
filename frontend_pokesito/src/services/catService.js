@@ -39,18 +39,27 @@ apiClient.interceptors.response.use(
 export const catService = {
   // Obtener todas las categorías
   getAllCategorias: async () => {
+    console.log('🚀 catService: Iniciando getAllCategorias')
     try {
+      console.log('🌐 catService: Haciendo petición GET a /cat')
       const response = await apiClient.get('/cat')
+      console.log('📡 catService: Respuesta completa:', response)
+      console.log('📦 catService: Data de respuesta:', response.data)
+      
+      // El backend devuelve { success: true, message: "...", data: [...] }
       return {
         success: true,
-        data: response.data.datos || response.data, // Manejar tanto 'datos' como 'data'
-        message: response.data.mensaje || 'Categorías obtenidas exitosamente'
+        data: response.data.data, // Aquí está el array de categorías
+        message: response.data.message || 'Categorías obtenidas exitosamente'
       }
     } catch (error) {
+      console.error('💥 catService: Error en getAllCategorias:', error)
+      console.error('📋 catService: Error response:', error.response)
+      
       return {
         success: false,
         data: null,
-        message: error.response?.data?.mensaje || error.response?.data?.message || 'Error al obtener categorías'
+        message: error.response?.data?.message || error.message || 'Error al obtener categorías'
       }
     }
   },

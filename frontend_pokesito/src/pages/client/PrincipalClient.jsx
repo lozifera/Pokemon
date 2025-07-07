@@ -31,13 +31,13 @@ function PrincipalClient() {
         </header>
         
         <nav className="dashboard-nav">
-            <Link to="/pokemons" className="nav-link">
+            <Link to="/client/pokemons" className="nav-link">
             Ver Pokémon
             </Link>
-            <Link to="/teams" className="nav-link">
-            Mis Equipos
+            <Link to="/client/teams" className="nav-link">
+            Constructor de Equipos
             </Link>
-            <Link to="/profile" className="nav-link">
+            <Link to="/client/profile" className="nav-link">
             Mi Perfil
             </Link>
             
@@ -57,19 +57,19 @@ function PrincipalClient() {
             <div className="card">
                 <h3>Pokémon Favoritos</h3>
                 <p>Explora y guarda tus Pokémon favoritos</p>
-                <Link to="/pokemons" className="card-link">Ver Pokémon</Link>
+                <Link to="/client/pokemons" className="card-link">Ver Pokémon</Link>
             </div>
             
             <div className="card">
-                <h3>Mis Equipos</h3>
-                <p>Crea y gestiona tus equipos Pokémon</p>
-                <Link to="/teams" className="card-link">Gestionar Equipos</Link>
+                <h3>Constructor de Equipos</h3>
+                <p>Crea y gestiona tus equipos Pokémon competitivos</p>
+                <Link to="/client/teams" className="card-link">Ir al Constructor</Link>
             </div>
             
             <div className="card">
                 <h3>Mi Perfil</h3>
                 <p>Actualiza tu información personal</p>
-                <Link to="/profile" className="card-link">Ver Perfil</Link>
+                <Link to="/client/profile" className="card-link">Ver Perfil</Link>
             </div>
             
             {/* Card de Admin - Solo visible si el usuario es admin */}

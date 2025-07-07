@@ -66,19 +66,16 @@ const crearEquipoPokemon = async (req, res) => {
             id_habilidad 
         } = req.body;
 
-        // Validar campos requeridos
-        if (id_equipo === undefined || !nombre_pok || !apodo_pok || !img_pok || 
-            id_pokemon === undefined || id_detalle === undefined || 
-            id_articulo === undefined || id_estadisticas === undefined || 
-            id_habilidad === undefined) {
+        // Validar campos requeridos básicos
+        if (id_equipo === undefined || !nombre_pok || !apodo_pok || id_pokemon === undefined) {
             return res.status(400).json({
                 exito: false,
-                mensaje: 'Todos los campos son requeridos (id_equipo, nombre_pok, apodo_pok, img_pok, id_pokemon, id_detalle, id_articulo, id_estadisticas, id_habilidad)'
+                mensaje: 'Los campos básicos son requeridos (id_equipo, nombre_pok, apodo_pok, id_pokemon)'
             });
         }
 
         // Validar que los campos de texto no estén vacíos
-        if (nombre_pok.trim().length === 0 || apodo_pok.trim().length === 0 || img_pok.trim().length === 0) {
+        if (nombre_pok.trim().length === 0 || apodo_pok.trim().length === 0) {
             return res.status(400).json({
                 exito: false,
                 mensaje: 'Los campos de texto no pueden estar vacíos'
@@ -86,16 +83,34 @@ const crearEquipoPokemon = async (req, res) => {
         }
 
         // Validar longitud de campos de texto
-        if (nombre_pok.length > 255 || apodo_pok.length > 255 || img_pok.length > 255) {
+        if (nombre_pok.length > 255 || apodo_pok.length > 255) {
             return res.status(400).json({
                 exito: false,
                 mensaje: 'Los campos de texto no pueden exceder 255 caracteres'
             });
         }
 
-        // Validar que los IDs sean números enteros positivos
-        const ids = [id_equipo, id_pokemon, id_detalle, id_articulo, id_estadisticas, id_habilidad];
-        if (ids.some(id => !Number.isInteger(Number(id)) || Number(id) < 1)) {
+        // Validar img_pok si se proporciona
+        if (img_pok && img_pok.length > 255) {
+            return res.status(400).json({
+                exito: false,
+                mensaje: 'El campo img_pok no puede exceder 255 caracteres'
+            });
+        }
+
+        // Validar que los IDs obligatorios sean números enteros positivos
+        const idsObligatorios = [id_equipo, id_pokemon];
+        if (idsObligatorios.some(id => !Number.isInteger(Number(id)) || Number(id) < 1)) {
+            return res.status(400).json({
+                exito: false,
+                mensaje: 'Los IDs de equipo y pokémon deben ser números enteros positivos'
+            });
+        }
+
+        // Validar IDs opcionales si se proporcionan
+        const idsOpcionales = [id_detalle, id_articulo, id_estadisticas, id_habilidad];
+        const idsOpcionalesValidos = idsOpcionales.filter(id => id !== undefined && id !== null);
+        if (idsOpcionalesValidos.some(id => !Number.isInteger(Number(id)) || Number(id) < 1)) {
             return res.status(400).json({
                 exito: false,
                 mensaje: 'Todos los IDs deben ser números enteros positivos'
@@ -106,12 +121,12 @@ const crearEquipoPokemon = async (req, res) => {
             id_equipo: Number(id_equipo),
             nombre_pok: nombre_pok.trim(),
             apodo_pok: apodo_pok.trim(),
-            img_pok: img_pok.trim(),
+            img_pok: img_pok ? img_pok.trim() : null,
             id_pokemon: Number(id_pokemon),
-            id_detalle: Number(id_detalle),
-            id_articulo: Number(id_articulo),
-            id_estadisticas: Number(id_estadisticas),
-            id_habilidad: Number(id_habilidad)
+            id_detalle: id_detalle ? Number(id_detalle) : null,
+            id_articulo: id_articulo ? Number(id_articulo) : null,
+            id_estadisticas: id_estadisticas ? Number(id_estadisticas) : null,
+            id_habilidad: id_habilidad ? Number(id_habilidad) : null
         });
 
         res.status(201).json({

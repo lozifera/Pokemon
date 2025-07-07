@@ -39,18 +39,27 @@ apiClient.interceptors.response.use(
 export const movimientosService = {
   // Obtener todos los movimientos
   getAllMovimientos: async () => {
+    console.log('🚀 movimientosService: Iniciando getAllMovimientos')
     try {
+      console.log('🌐 movimientosService: Haciendo petición GET a /movimientos')
       const response = await apiClient.get('/movimientos')
+      console.log('📡 movimientosService: Respuesta recibida:', response)
+      console.log('📦 movimientosService: Data de respuesta:', response.data)
+      
       return {
         success: true,
-        data: response.data.datos || response.data,
-        message: response.data.mensaje || 'Movimientos obtenidos exitosamente'
+        data: response.data.datos || response.data.data, // Manejar ambas estructuras
+        message: response.data.mensaje || response.data.message || 'Movimientos obtenidos exitosamente'
       }
     } catch (error) {
+      console.error('💥 movimientosService: Error en getAllMovimientos:', error)
+      console.error('📋 movimientosService: Error response:', error.response)
+      console.error('📋 movimientosService: Error message:', error.message)
+      
       return {
         success: false,
         data: null,
-        message: error.response?.data?.mensaje || error.response?.data?.message || 'Error al obtener movimientos'
+        message: error.response?.data?.message || error.response?.data?.mensaje || 'Error al obtener movimientos'
       }
     }
   },

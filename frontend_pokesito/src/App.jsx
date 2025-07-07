@@ -4,11 +4,15 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import PrincipalClient from './pages/client/PrincipalClient'
+import TeamBuilder from './pages/client/TeamBuilder'
+import PokemonList from './pages/client/PokemonList'
 import PrincipalAdmin from './pages/admin/PrincipalAdmin'
 import FoTipo from './pages/admin/FoTipo'
 import FoCat from './pages/admin/FoCat'
 import ForMovimiento from './pages/admin/ForMovimiento'
 import ForArticulo from './pages/admin/ForArticulo'
+import FoHabilidades from './pages/admin/FoHabilidades'
+import ForPokemon from './pages/admin/ForPokemon'
 import './App.css'
 
 function App() {
@@ -30,6 +34,24 @@ function App() {
               element={
                 <ProtectedRoute>
                   <PrincipalClient />
+                </ProtectedRoute>
+              } 
+            />
+            
+            <Route 
+              path="/client/teams" 
+              element={
+                <ProtectedRoute>
+                  <TeamBuilder />
+                </ProtectedRoute>
+              } 
+            />
+            
+            <Route 
+              path="/client/pokemons" 
+              element={
+                <ProtectedRoute>
+                  <PokemonList />
                 </ProtectedRoute>
               } 
             />
@@ -84,6 +106,26 @@ function App() {
               } 
             />
             
+            {/* Ruta para gestionar habilidades - solo admin */}
+            <Route 
+              path="/admin/habilidades" 
+              element={
+                <ProtectedRoute adminOnly={true}>
+                  <FoHabilidades />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* Ruta para gestionar pokémon - solo admin */}
+            <Route 
+              path="/admin/pokemons" 
+              element={
+                <ProtectedRoute adminOnly={true}>
+                  <ForPokemon />
+                </ProtectedRoute>
+              } 
+            />
+
             {/* Ruta para páginas no encontradas - redirige a login */}
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
