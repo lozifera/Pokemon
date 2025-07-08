@@ -6,7 +6,9 @@ import Register from './pages/Register'
 import PrincipalClient from './pages/client/PrincipalClient'
 import TeamBuilder from './pages/client/TeamBuilder'
 import PokemonList from './pages/client/PokemonList'
+import MisEquipos from './pages/client/MisEquipos'
 import PrincipalAdmin from './pages/admin/PrincipalAdmin'
+import AdminUsuarios from './pages/admin/AdminUsuarios'
 import FoTipo from './pages/admin/FoTipo'
 import FoCat from './pages/admin/FoCat'
 import ForMovimiento from './pages/admin/ForMovimiento'
@@ -56,12 +58,31 @@ function App() {
               } 
             />
             
+            <Route 
+              path="/client/mis-equipos" 
+              element={
+                <ProtectedRoute>
+                  <MisEquipos />
+                </ProtectedRoute>
+              } 
+            />
+            
             {/* Rutas protegidas para administradores */}
             <Route 
               path="/admin" 
               element={
                 <ProtectedRoute adminOnly={true}>
                   <PrincipalAdmin />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* Ruta para gestionar usuarios - solo admin */}
+            <Route 
+              path="/admin/users" 
+              element={
+                <ProtectedRoute adminOnly={true}>
+                  <AdminUsuarios />
                 </ProtectedRoute>
               } 
             />

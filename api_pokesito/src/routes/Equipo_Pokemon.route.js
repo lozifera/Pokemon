@@ -19,8 +19,8 @@ router.get('/:id', obtenerEquipoPokemonPorId);
 // POST /api/equipo-pokemon - Crear nuevo Pokémon de equipo
 router.post('/', crearEquipoPokemon);
 
-// PUT /api/equipo-pokemon/:id - Actualizar Pokémon de equipo
-router.put('/:id', actualizarEquipoPokemon);
+// PATCH /api/equipo-pokemon/:id - Actualizar Pokémon de equipo (parcial)
+router.patch('/:id', actualizarEquipoPokemon);
 
 // DELETE /api/equipo-pokemon/:id - Eliminar Pokémon de equipo
 router.delete('/:id', eliminarEquipoPokemon);

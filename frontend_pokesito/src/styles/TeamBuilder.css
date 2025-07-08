@@ -4,25 +4,27 @@
   margin: 0 auto;
   padding: 20px;
   font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f8f9fa;
   min-height: 100vh;
 }
 
 .team-builder-header {
   text-align: center;
   margin-bottom: 30px;
-  color: white;
+  color: #000;
 }
 
 .team-builder-header h2 {
   font-size: 2.5rem;
   margin-bottom: 10px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  font-weight: 300;
+  color: #000;
 }
 
 .team-builder-header p {
   font-size: 1.2rem;
-  opacity: 0.9;
+  color: #666;
+  font-weight: 300;
 }
 
 .team-builder-content {
@@ -35,10 +37,11 @@
 /* Panel de equipos */
 .teams-panel {
   background: white;
-  border-radius: 15px;
+  border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow-y: auto;
+  border: 1px solid #e0e0e0;
 }
 
 .teams-header {
@@ -46,61 +49,61 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 1px solid #e0e0e0;
   padding-bottom: 15px;
 }
 
 .teams-header h3 {
-  color: #333;
+  color: #000;
   font-size: 1.4rem;
   margin: 0;
+  font-weight: 400;
 }
 
 .btn-create-team {
-  background: linear-gradient(135deg, #4CAF50, #45a049);
+  background: #000;
   color: white;
   border: none;
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  font-size: 14px;
 }
 
 .btn-create-team:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  background: #333;
 }
 
 .btn-create-team:disabled {
   background: #ccc;
   cursor: not-allowed;
-  transform: none;
 }
 
 /* Formulario de crear equipo */
 .create-team-form {
   background: #f8f9fa;
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 6px;
   margin-bottom: 20px;
-  border: 2px dashed #4CAF50;
+  border: 1px solid #e0e0e0;
 }
 
 .create-team-form input {
   width: 100%;
   padding: 10px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
   margin-bottom: 10px;
   box-sizing: border-box;
+  color: #000;
 }
 
 .create-team-form input:focus {
   outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
+  border-color: #000;
 }
 
 .form-buttons {
@@ -112,15 +115,20 @@
   flex: 1;
   padding: 8px 12px;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  font-size: 14px;
 }
 
 .form-buttons button[type="submit"] {
-  background: linear-gradient(135deg, #4CAF50, #45a049);
+  background: #000;
   color: white;
+}
+
+.form-buttons button[type="submit"]:hover {
+  background: #333;
 }
 
 .form-buttons button[type="button"] {
@@ -128,8 +136,8 @@
   color: white;
 }
 
-.form-buttons button:hover {
-  transform: translateY(-1px);
+.form-buttons button[type="button"]:hover {
+  background: #5a6268;
 }
 
 /* Lista de equipos */
@@ -144,24 +152,22 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-  border-radius: 10px;
+  background: white;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  border: 1px solid #e0e0e0;
 }
 
 .team-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  border-color: #007bff;
+  background: #f8f9fa;
+  border-color: #000;
 }
 
 .team-item.selected {
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: #000;
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,123,255,0.3);
+  border-color: #000;
 }
 
 .team-item.selected .team-info h4 {
@@ -169,17 +175,18 @@
 }
 
 .team-item.selected .team-info small {
-  color: rgba(255, 255, 255, 0.8);
+  color: #ccc;
 }
 
 .team-info h4 {
   margin: 0 0 5px 0;
   font-size: 1.1rem;
-  color: #333;
+  color: #000;
+  font-weight: 500;
 }
 
 .team-info small {
-  opacity: 0.7;
+  color: #666;
 }
 
 .btn-delete-team {
@@ -187,34 +194,35 @@
   color: white;
   border: none;
   padding: 6px 10px;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  font-size: 12px;
+  transition: all 0.2s ease;
 }
 
 .btn-delete-team:hover {
   background: #c82333;
-  transform: scale(1.1);
 }
 
 .loading, .no-teams, .no-team-selected {
   text-align: center;
   padding: 40px 20px;
-  color: #666;
+  color: #000;
 }
 
 .no-teams p {
   margin: 10px 0;
+  color: #000;
 }
 
 /* Panel de detalle del equipo */
 .team-detail-panel {
   background: white;
-  border-radius: 15px;
+  border-radius: 8px;
   padding: 25px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   overflow-y: auto;
+  border: 1px solid #e0e0e0;
 }
 
 .team-detail-header {
@@ -222,52 +230,89 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
-  border-bottom: 3px solid #007bff;
+  border-bottom: 1px solid #e0e0e0;
   padding-bottom: 15px;
 }
 
 .team-detail-header h3 {
-  color: #333;
+  color: #000;
   font-size: 1.8rem;
   margin: 0;
+  font-weight: 400;
 }
 
 .btn-add-pokemon {
-  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+  background: #000;
   color: white;
   border: none;
   padding: 12px 20px;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  font-weight: 400;
+  font-size: 14px;
+  transition: all 0.2s ease;
 }
 
 .btn-add-pokemon:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  background: #333;
 }
 
 .btn-add-pokemon:disabled {
   background: #ccc;
   cursor: not-allowed;
-  transform: none;
 }
 
 /* Selector de Pokémon */
 .pokemon-selector {
   background: #f8f9fa;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 20px;
   margin-bottom: 25px;
-  border: 2px solid #007bff;
+  border: 1px solid #e0e0e0;
 }
 
 .pokemon-selector h4 {
   margin: 0 0 15px 0;
-  color: #333;
+  color: #000;
   font-size: 1.3rem;
+  font-weight: 500;
+}
+
+/* Input de búsqueda de Pokémon */
+.pokemon-search-section {
+  margin-bottom: 20px;
+}
+
+.pokemon-search-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  transition: all 0.2s ease;
+  background: white;
+  color: #000;
+}
+
+.pokemon-search-input:focus {
+  border-color: #000;
+}
+
+.pokemon-search-input::placeholder {
+  color: #666;
+  opacity: 0.8;
+}
+
+.no-pokemon-found {
+  text-align: center;
+  padding: 20px;
+  color: #000;
+  font-style: italic;
+  background: white;
+  border-radius: 6px;
+  margin-top: 15px;
+  border: 1px solid #e0e0e0;
 }
 
 .pokemon-grid {
@@ -284,16 +329,15 @@
   align-items: center;
   padding: 15px;
   background: white;
-  border-radius: 10px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  border: 1px solid #e0e0e0;
 }
 
 .pokemon-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-  border-color: #007bff;
+  background: #f8f9fa;
+  border-color: #000;
 }
 
 .pokemon-card img {
@@ -305,9 +349,9 @@
 
 .pokemon-card span {
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 400;
   text-align: center;
-  color: #333;
+  color: #000;
 }
 
 /* Pokémon del equipo */
@@ -322,31 +366,30 @@
 }
 
 .pokemon-slot {
-  border: 3px dashed #ddd;
-  border-radius: 15px;
+  border: 1px dashed #ddd;
+  border-radius: 8px;
   padding: 20px;
   min-height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #fafafa;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .pokemon-slot:hover {
-  border-color: #007bff;
-  background: #f0f7ff;
+  border-color: #000;
+  background: #f0f0f0;
 }
 
 .pokemon-in-team {
   display: flex;
   align-items: center;
   width: 100%;
-  background: linear-gradient(135deg, #fff, #f8f9fa);
+  background: white;
   padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  border: 2px solid #007bff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
 }
 
 .pokemon-in-team img {
@@ -354,18 +397,19 @@
   height: 80px;
   object-fit: contain;
   margin-right: 15px;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 
 .pokemon-info {
   flex: 1;
-  color: #333;
+  color: #000;
 }
 
 .pokemon-info h4 {
   margin: 0 0 5px 0;
-  color: #333;
+  color: #000;
   font-size: 1.2rem;
+  font-weight: 500;
 }
 
 .pokemon-info small {
@@ -378,31 +422,104 @@
   color: white;
   border: none;
   padding: 8px 12px;
-  border-radius: 50%;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 12px;
   width: 35px;
   height: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .btn-remove-pokemon:hover {
   background: #c82333;
-  transform: scale(1.1);
 }
 
 .empty-slot {
   text-align: center;
-  color: #999;
+  color: #666;
   font-style: italic;
 }
 
 .empty-slot span {
   display: block;
   font-size: 1.1rem;
+  color: #000;
+}
+
+/* Secciones de movimientos, habilidades y artículos */
+.moves-section,
+.ability-section,
+.item-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.moves-section h4,
+.ability-section h4,
+.item-section h4 {
+  margin: 0 0 15px 0;
+  color: #000;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.moves-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.move-selector,
+.ability-selector,
+.item-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.move-selector label,
+.ability-selector label,
+.item-selector label {
+  font-weight: 500;
+  color: #000;
+  font-size: 14px;
+}
+
+.move-select,
+.ability-select,
+.item-select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  color: #000;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.move-select:hover,
+.ability-select:hover,
+.item-select:hover,
+.move-select:focus,
+.ability-select:focus,
+.item-select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.move-select:disabled,
+.ability-select:disabled,
+.item-select:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 /* Responsive */
@@ -452,16 +569,20 @@
     gap: 15px;
     align-items: stretch;
   }
+  
+  .moves-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* Modal del Editor de Pokémon */
+/* Modal del Editor de Pokémon - Minimalista */
 .pokemon-editor-modal {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -470,242 +591,332 @@
 
 .pokemon-editor-content {
   background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 600px;
-  max-height: 80vh;
+  padding: 24px;
+  border-radius: 6px;
+  max-width: 900px;
+  max-height: 90vh;
   overflow: auto;
-  width: 90%;
-  color: #333;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 95%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 1px solid #e0e0e0;
 }
 
 .editor-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 2px solid #007bff;
-  padding-bottom: 15px;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .editor-header h3 {
-  color: #333;
   margin: 0;
-  font-size: 1.5rem;
+  color: #000;
+  font-size: 1.3rem;
+  font-weight: 500;
 }
 
-.editor-header button {
+.btn-close-modal {
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
-  color: #666;
-  padding: 5px;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
+  color: #000;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
 }
 
-.editor-header button:hover {
-  background-color: #f0f0f0;
-  color: #333;
+.btn-close-modal:hover {
+  background: #f5f5f5;
 }
 
 .editor-form {
-  display: grid;
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
-.basic-info h4,
-.ivs-section h4,
-.evs-section h4 {
-  color: #333;
+/* Basic Info Section */
+.basic-info h4 {
   margin: 0 0 15px 0;
+  color: #000;
   font-size: 1.2rem;
-  border-bottom: 2px solid #e9ecef;
-  padding-bottom: 8px;
+  font-weight: 500;
 }
 
-.basic-info label,
-.ivs-section label,
-.evs-section label {
+.basic-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.basic-info-grid label {
   display: block;
-  color: #555;
-  font-weight: 600;
   margin-bottom: 5px;
-  font-size: 0.9rem;
+  font-weight: 500;
+  color: #000;
 }
 
-.basic-info input,
-.basic-info select,
-.ivs-section input,
-.evs-section input {
+.input-field {
   width: 100%;
-  padding: 8px 12px;
-  border: 2px solid #ddd;
-  border-radius: 6px;
-  font-size: 1rem;
-  color: #333;
-  background-color: white;
-  box-sizing: border-box;
-  transition: border-color 0.3s ease;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+  color: #000;
 }
 
-.basic-info input:focus,
-.basic-info select:focus,
-.ivs-section input:focus,
-.evs-section input:focus {
+.input-field:focus {
   outline: none;
+  border-color: #000;
+}
+
+/* Stats Editor - Smogon Style */
+.stats-editor h4 {
+  margin: 0 0 15px 0;
+  color: #000;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.stat-form {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: auto repeat(6, 1fr);
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.stat-header {
+  font-weight: 600;
+  text-align: center;
+  padding: 8px 4px;
+  background: #e9ecef;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #000;
+}
+
+.stat-label {
+  font-weight: 600;
+  padding: 8px 12px;
+  background: #dee2e6;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 12px;
+  color: #000;
+}
+
+.base-stat {
+  text-align: center;
+  font-weight: 600;
+  padding: 8px 4px;
+  background: #fff;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #000;
+}
+
+.stat-bar {
+  height: 16px;
+  background: #e9ecef;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.ev-input, .iv-input {
+  width: 100%;
+  padding: 4px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: #000;
+}
+
+.ev-input {
+  background: #fff;
+  border-color: #ffc107;
+}
+
+.ev-input:focus {
+  outline: none;
+  border-color: #000;
+  background: #fff;
+}
+
+.iv-input {
+  background: #fff;
   border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
-.basic-info div,
-.ivs-section div,
-.evs-section div {
+.iv-input:focus {
+  outline: none;
+  border-color: #000;
+  background: #fff;
+}
+
+.ev-slider {
+  width: 100%;
+  height: 4px;
+  background: #dee2e6;
+  border-radius: 2px;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.ev-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #000;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.ev-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: #000;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.ev-total {
+  text-align: center;
+  padding: 12px;
+  background: #fff;
+  border-radius: 6px;
   margin-bottom: 15px;
+  border: 1px solid #e0e0e0;
+  color: #000;
 }
 
+.nature-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.nature-selector label {
+  font-weight: 500;
+  color: #000;
+  min-width: 60px;
+}
+
+.nature-select {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background: white;
+  color: #000;
+}
+
+.nature-select:focus {
+  outline: none;
+  border-color: #000;
+}
+
+/* Editor Actions */
 .editor-actions {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   justify-content: flex-end;
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 2px solid #e9ecef;
+  border-top: 1px solid #e0e0e0;
 }
 
-.editor-actions button {
+.btn-cancel-edit {
   padding: 12px 24px;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 120px;
-}
-
-.editor-actions button:first-child {
-  background-color: #6c757d;
+  background: #6c757d;
   color: white;
-}
-
-.editor-actions button:first-child:hover {
-  background-color: #5a6268;
-  transform: translateY(-1px);
-}
-
-.editor-actions button:last-child {
-  background-color: #28a745;
-  color: white;
-}
-
-.editor-actions button:last-child:hover {
-  background-color: #218838;
-  transform: translateY(-1px);
-}
-
-.evs-section > div:last-child {
-  margin-top: 15px;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #666;
-  border: 1px solid #e9ecef;
-}
-
-/* Mejoras para los botones de acción de Pokémon */
-.pokemon-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.btn-edit-pokemon,
-.btn-remove-pokemon {
-  padding: 6px 12px;
   border: none;
   border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  font-size: 14px;
 }
 
-.btn-edit-pokemon {
-  background-color: #007bff;
-  color: white;
+.btn-cancel-edit:hover {
+  background: #5a6268;
 }
 
-.btn-edit-pokemon:hover {
-  background-color: #0056b3;
-  transform: translateY(-1px);
-}
-
-.btn-remove-pokemon {
-  background-color: #dc3545;
-  color: white;
-}
-
-.btn-remove-pokemon:hover {
-  background-color: #c82333;
-  transform: translateY(-1px);
-}
-
-/* Mejoras para el header de acciones del equipo */
-.team-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.btn-test-endpoint {
-  background-color: #28a745;
+.btn-save-edit {
+  padding: 12px 24px;
+  background: #000;
   color: white;
   border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  border-radius: 4px;
+  font-weight: 400;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  font-size: 14px;
 }
 
-.btn-test-endpoint:hover {
-  background-color: #218838;
-  transform: translateY(-1px);
+.btn-save-edit:hover {
+  background: #333;
 }
 
-/* Responsive para el modal */
+/* Responsive design for stats editor */
 @media (max-width: 768px) {
   .pokemon-editor-content {
-    width: 95%;
-    max-height: 90vh;
-    padding: 15px;
+    width: 98%;
+    margin: 10px;
+    max-height: 95vh;
   }
   
-  .editor-header h3 {
-    font-size: 1.2rem;
+  .stat-grid {
+    grid-template-columns: auto repeat(3, 1fr);
+    gap: 6px;
   }
   
-  .basic-info > div,
-  .ivs-section > div,
-  .evs-section > div {
-    grid-template-columns: 1fr;
+  .stat-header, .stat-label {
+    font-size: 11px;
+    padding: 6px 2px;
   }
   
-  .editor-actions {
+  .ev-input, .iv-input {
+    font-size: 12px;
+    padding: 4px;
+  }
+  
+  .nature-selector {
     flex-direction: column;
+    align-items: stretch;
   }
   
-  .editor-actions button {
-    width: 100%;
+  .basic-info-grid {
+    grid-template-columns: 1fr;
   }
 }

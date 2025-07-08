@@ -57,20 +57,64 @@ apiClient.interceptors.response.use(
 
 // Servicio de equipos
 export const equiposService = {
-  // Obtener todos los equipos del usuario
-  getUserEquipos: async () => {
+  // Obtener todos los equipos del usuario actual
+  getUserEquipos: async (userId = null) => {
     try {
       const response = await apiClient.get('/equipos')
+      
+      // Si no se proporciona userId, intentar obtenerlo del token
+      let currentUserId = userId
+      
+      if (!currentUserId) {
+        const token = localStorage.getItem('token')
+        if (token) {
+          try {
+            // Decodificar el token para obtener el ID del usuario
+            const tokenPayload = JSON.parse(atob(token.split('.')[1]))
+            currentUserId = tokenPayload.id || tokenPayload.userId
+          } catch (error) {
+            console.warn('No se pudo decodificar el token:', error)
+          }
+        }
+      }
+      
+      let equipos = response.data.datos || response.data
+      
+      // Filtrar equipos solo del usuario actual si tenemos el ID
+      if (currentUserId && Array.isArray(equipos)) {
+        equipos = equipos.filter(equipo => equipo.id_usuario === currentUserId)
+        console.log(`Equipos filtrados para usuario ${currentUserId}:`, equipos)
+      }
+      
       return {
         success: true,
-        data: response.data.datos || response.data,
-        message: response.data.mensaje || 'Equipos obtenidos exitosamente'
+        data: equipos,
+        message: response.data.mensaje || 'Equipos del usuario obtenidos exitosamente',
+        total: equipos.length
       }
     } catch (error) {
       return {
         success: false,
         data: null,
         message: error.response?.data?.mensaje || error.message || 'Error al obtener equipos'
+      }
+    }
+  },
+
+  // Obtener todos los equipos (solo para admin)
+  getAllEquipos: async () => {
+    try {
+      const response = await apiClient.get('/equipos')
+      return {
+        success: true,
+        data: response.data.datos || response.data,
+        message: response.data.mensaje || 'Todos los equipos obtenidos exitosamente'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: null,
+        message: error.response?.data?.mensaje || error.message || 'Error al obtener todos los equipos'
       }
     }
   },
@@ -150,10 +194,36 @@ export const equiposService = {
 
 // Servicio de Pokémon en equipos
 export const equipoPokemonService = {
-  // Obtener todos los Pokémon de un equipo
+  // Obtener todos los Pokémon de un equipo usando la nueva ruta
   getEquipoPokemon: async (id_equipo) => {
     try {
+      const response = await apiClient.get(`/equipos/${id_equipo}/pokemon`)
+      console.log('getEquipoPokemon Response:', response.data)
+      
+      // Extraer solo los Pokémon del nuevo formato de respuesta
+      const pokemonData = response.data.datos?.pokemon || response.data.pokemon || []
+      
+      return {
+        success: true,
+        data: pokemonData,
+        message: response.data.mensaje || 'Pokémon del equipo obtenidos exitosamente',
+        equipo: response.data.datos?.equipo || null,
+        total: response.data.datos?.total_pokemon || pokemonData.length
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: null,
+        message: error.response?.data?.mensaje || error.message || 'Error al obtener Pokémon del equipo'
+      }
+    }
+  },
+
+  // Método legacy para compatibilidad (usando la ruta antigua)
+  getEquipoPokemonLegacy: async (id_equipo) => {
+    try {
       const response = await apiClient.get(`/equipo-pokemon?id_equipo=${id_equipo}`)
+      console.log('getEquipoPokemonLegacy Response:', response.data)
       return {
         success: true,
         data: response.data.datos || response.data,
@@ -199,15 +269,19 @@ export const equipoPokemonService = {
   },
 
   // Actualizar un Pokémon en el equipo
-  updatePokemonInEquipo: async (id, pokemonData) => {
+  updateEquipoPokemon: async (id, pokemonData) => {
     try {
+      console.log('PUT /equipo-pokemon/' + id, 'Payload:', pokemonData)
       const response = await apiClient.put(`/equipo-pokemon/${id}`, pokemonData)
+      console.log('PUT Response:', response.data)
       return {
         success: true,
         data: response.data.datos || response.data,
         message: response.data.mensaje || 'Pokémon actualizado exitosamente'
       }
     } catch (error) {
+      console.error('PUT /equipo-pokemon/' + id + ' ERROR:', error.response?.data || error.message)
+      console.error('Full error:', error)
       return {
         success: false,
         data: null,
@@ -230,6 +304,36 @@ export const equipoPokemonService = {
         success: false,
         data: null,
         message: error.response?.data?.mensaje || error.message || 'Error al eliminar Pokémon del equipo'
+      }
+    }
+  },
+
+  // Método de prueba para verificar la nueva ruta
+  testNewRoute: async (id_equipo) => {
+    try {
+      console.log('🔍 Probando nueva ruta:', `/equipos/${id_equipo}/pokemon`)
+      const response = await apiClient.get(`/equipos/${id_equipo}/pokemon`)
+      console.log('✅ Respuesta exitosa:', response.data)
+      
+      // Mostrar estructura de la respuesta
+      console.log('📊 Estructura de respuesta:')
+      console.log('- exito:', response.data.exito)
+      console.log('- mensaje:', response.data.mensaje)
+      console.log('- datos.equipo:', response.data.datos?.equipo)
+      console.log('- datos.pokemon:', response.data.datos?.pokemon)
+      console.log('- datos.total_pokemon:', response.data.datos?.total_pokemon)
+      
+      return {
+        success: true,
+        data: response.data,
+        message: 'Prueba exitosa de la nueva ruta'
+      }
+    } catch (error) {
+      console.error('❌ Error en la nueva ruta:', error)
+      return {
+        success: false,
+        data: null,
+        message: error.response?.data?.mensaje || error.message || 'Error al probar la nueva ruta'
       }
     }
   }

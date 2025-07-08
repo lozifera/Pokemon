@@ -203,27 +203,24 @@ export const pokemonService = {
         message: error.response?.data?.mensaje || 'Error al eliminar Pokemon'
       }
     }
-  }
-}
+  },
 
-// Servicio para relaciones Pokemon-Habilidad
-export const pokemonHabilidadService = {
-  // Actualizar habilidades de un Pokemon
-  updatePokemonHabilidades: async (pokemonId, habilidades) => {
+  // Métodos para gestionar relaciones individuales
+  
+  // Obtener movimientos de un Pokemon
+  getPokemonMovimientos: async (pokemonId) => {
     try {
-      const response = await apiClient.put(`/pokemon-habilidad/pokemon/${pokemonId}`, {
-        habilidades: habilidades
-      })
+      const response = await apiClient.get(`/pokemon-movimiento/pokemon/${pokemonId}`)
       return {
         success: true,
         data: response.data.datos || response.data,
-        message: response.data.mensaje || 'Habilidades actualizadas exitosamente'
+        message: response.data.mensaje || 'Movimientos obtenidos exitosamente'
       }
     } catch (error) {
       return {
         success: false,
         data: null,
-        message: error.response?.data?.mensaje || 'Error al actualizar habilidades'
+        message: error.response?.data?.mensaje || 'Error al obtener movimientos'
       }
     }
   },
@@ -244,70 +241,6 @@ export const pokemonHabilidadService = {
         message: error.response?.data?.mensaje || 'Error al obtener habilidades'
       }
     }
-  }
-}
-
-// Servicio para relaciones Pokemon-Movimiento
-export const pokemonMovimientoService = {
-  // Actualizar movimientos de un Pokemon
-  updatePokemonMovimientos: async (pokemonId, movimientos) => {
-    try {
-      const response = await apiClient.put(`/pokemon-movimiento/pokemon/${pokemonId}`, {
-        movimientos: movimientos
-      })
-      return {
-        success: true,
-        data: response.data.datos || response.data,
-        message: response.data.mensaje || 'Movimientos actualizados exitosamente'
-      }
-    } catch (error) {
-      return {
-        success: false,
-        data: null,
-        message: error.response?.data?.mensaje || 'Error al actualizar movimientos'
-      }
-    }
-  },
-
-  // Obtener movimientos de un Pokemon
-  getPokemonMovimientos: async (pokemonId) => {
-    try {
-      const response = await apiClient.get(`/pokemon-movimiento/pokemon/${pokemonId}`)
-      return {
-        success: true,
-        data: response.data.datos || response.data,
-        message: response.data.mensaje || 'Movimientos obtenidos exitosamente'
-      }
-    } catch (error) {
-      return {
-        success: false,
-        data: null,
-        message: error.response?.data?.mensaje || 'Error al obtener movimientos'
-      }
-    }
-  }
-}
-
-// Servicio para relaciones Pokemon-Tipo
-export const pokemonTipoService = {
-  // Actualizar tipos de un Pokemon
-  updatePokemonTipos: async (pokemonId, tipos) => {
-    try {
-      const response = await apiClient.put(`/pokemon-tipo/pokemon/${pokemonId}`, {
-        tipos: tipos
-      })
-      return {
-        success: true,
-        data: response.data.datos || response.data,
-        message: response.data.mensaje || 'Tipos actualizados exitosamente'
-      }
-    } catch (error) {
-      return {
-        success: false,
-        data: null,
-        message: error.response?.data?.mensaje || 'Error al actualizar tipos'
-      }
-    }
   },
 
   // Obtener tipos de un Pokemon
@@ -326,7 +259,95 @@ export const pokemonTipoService = {
         message: error.response?.data?.mensaje || 'Error al obtener tipos'
       }
     }
-  }
+  },
+
+  // Agregar movimiento a un Pokemon
+  addPokemonMovimiento: async (pokemonId, movimientoId) => {
+    try {
+      const response = await apiClient.post('/pokemon-movimiento', {
+        id_pokemon: pokemonId,
+        id_movimiento: movimientoId
+      })
+      return {
+        success: true,
+        data: response.data.datos || response.data,
+        message: response.data.mensaje || 'Movimiento agregado exitosamente'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: null,
+        message: error.response?.data?.mensaje || 'Error al agregar movimiento'
+      }
+    }
+  },
+
+  // Agregar habilidad a un Pokemon
+  addPokemonHabilidad: async (pokemonId, habilidadId, tipo = 'normal') => {
+    try {
+      const response = await apiClient.post('/pokemon-habilidad', {
+        id_pokemon: pokemonId,
+        id_habilidad: habilidadId,
+        tipo: tipo
+      })
+      return {
+        success: true,
+        data: response.data.datos || response.data,
+        message: response.data.mensaje || 'Habilidad agregada exitosamente'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: null,
+        message: error.response?.data?.mensaje || 'Error al agregar habilidad'
+      }
+    }
+  },
+
+  // Agregar tipo a un Pokemon
+  addPokemonTipo: async (pokemonId, tipoId) => {
+    try {
+      const response = await apiClient.post('/pokemon-tipo', {
+        id_pokemon: pokemonId,
+        id_tipo: tipoId
+      })
+      return {
+        success: true,
+        data: response.data.datos || response.data,
+        message: response.data.mensaje || 'Tipo agregado exitosamente'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: null,
+        message: error.response?.data?.mensaje || 'Error al agregar tipo'
+      }
+    }
+  },
+
+  // Eliminar todas las relaciones de un Pokemon (útil para actualizar)
+  deletePokemonRelations: async (pokemonId) => {
+    try {
+      const promises = [
+        apiClient.delete(`/pokemon-movimiento/pokemon/${pokemonId}`),
+        apiClient.delete(`/pokemon-habilidad/pokemon/${pokemonId}`),
+        apiClient.delete(`/pokemon-tipo/pokemon/${pokemonId}`)
+      ]
+      
+      await Promise.all(promises)
+      return {
+        success: true,
+        data: null,
+        message: 'Relaciones eliminadas exitosamente'
+      }
+    } catch (error) {
+      return {
+        success: false,
+        data: null,
+        message: error.response?.data?.mensaje || 'Error al eliminar relaciones'
+      }
+    }
+  },
 }
 
 export default pokemonService

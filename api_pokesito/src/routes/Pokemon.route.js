@@ -7,6 +7,8 @@ const {
     actualizarPokemon,
     eliminarPokemon,
     buscarPokemonPorNombre,
+    obtenerMovimientosPokemon,
+    obtenerHabilidadesPokemon,
     upload
 } = require('../controllers/Pokemon.controllers');
 
@@ -16,6 +18,12 @@ router.get('/', obtenerTodosLosPokemon);
 
 // GET /api/pokemon/buscar?nombre=pikachu - Buscar pokémon por nombre
 router.get('/buscar', buscarPokemonPorNombre);
+
+// GET /api/pokemon/:id/movimientos - Obtener movimientos de un Pokémon
+router.get('/:id/movimientos', obtenerMovimientosPokemon);
+
+// GET /api/pokemon/:id/habilidades - Obtener habilidades de un Pokémon
+router.get('/:id/habilidades', obtenerHabilidadesPokemon);
 
 // GET /api/pokemon/:id - Obtener un pokémon por ID
 router.get('/:id', obtenerPokemonPorId);

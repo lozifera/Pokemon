@@ -42,7 +42,7 @@
 }
 
 .form-section h4 {
-  color: #5d6d7e;
+  color: #000000;
   font-size: 1.2rem;
   margin: 20px 0 15px 0;
   font-weight: 500;
@@ -137,6 +137,8 @@
   cursor: pointer;
   margin: 0;
   font-size: 0.95rem;
+  color: #2c3e50;
+  font-weight: 500;
 }
 
 .checkbox-item input[type="checkbox"] {
@@ -157,29 +159,29 @@
   font-size: 0.875rem;
   font-weight: 600;
   text-transform: uppercase;
-  color: white;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* Colores para tipos de Pokemon */
-.tipo-normal { background-color: #A8A878; }
-.tipo-fire { background-color: #F08030; }
-.tipo-water { background-color: #6890F0; }
-.tipo-electric { background-color: #F8D030; }
-.tipo-grass { background-color: #78C850; }
-.tipo-ice { background-color: #98D8D8; }
-.tipo-fighting { background-color: #C03028; }
-.tipo-poison { background-color: #A040A0; }
-.tipo-ground { background-color: #E0C068; }
-.tipo-flying { background-color: #A890F0; }
-.tipo-psychic { background-color: #F85888; }
-.tipo-bug { background-color: #A8B820; }
-.tipo-rock { background-color: #B8A038; }
-.tipo-ghost { background-color: #705898; }
-.tipo-dragon { background-color: #7038F8; }
-.tipo-dark { background-color: #705848; }
-.tipo-steel { background-color: #B8B8D0; }
-.tipo-fairy { background-color: #EE99AC; }
+.tipo-normal { background-color: #A8A878; color: #ffffff; }
+.tipo-fire { background-color: #F08030; color: #ffffff; }
+.tipo-water { background-color: #6890F0; color: #ffffff; }
+.tipo-electric { background-color: #F8D030; color: #000000; }
+.tipo-grass { background-color: #78C850; color: #ffffff; }
+.tipo-ice { background-color: #98D8D8; color: #000000; }
+.tipo-fighting { background-color: #C03028; color: #ffffff; }
+.tipo-poison { background-color: #A040A0; color: #ffffff; }
+.tipo-ground { background-color: #E0C068; color: #000000; }
+.tipo-flying { background-color: #A890F0; color: #ffffff; }
+.tipo-psychic { background-color: #F85888; color: #ffffff; }
+.tipo-bug { background-color: #A8B820; color: #ffffff; }
+.tipo-rock { background-color: #B8A038; color: #ffffff; }
+.tipo-ghost { background-color: #705898; color: #ffffff; }
+.tipo-dragon { background-color: #7038F8; color: #ffffff; }
+.tipo-dark { background-color: #705848; color: #ffffff; }
+.tipo-steel { background-color: #B8B8D0; color: #000000; }
+.tipo-fairy { background-color: #EE99AC; color: #000000; }
 
 .habilidades-section {
   margin-top: 10px;
@@ -249,6 +251,33 @@
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
+}
+
+/* Asegurar consistencia de colores de texto */
+.form-pokemon-container * {
+  color: inherit;
+}
+
+.form-pokemon-container {
+  color: #2c3e50;
+}
+
+.form-pokemon-container .tipo-badge {
+  /* Los badges mantienen sus colores específicos */
+  color: inherit;
+}
+
+.form-pokemon-container input::placeholder {
+  color: #7f8c8d;
+  opacity: 1;
+}
+
+.form-pokemon-container select {
+  color: #2c3e50;
+}
+
+.form-pokemon-container textarea {
+  color: #2c3e50;
 }
 
 /* Responsive Design */
@@ -381,4 +410,57 @@
 
 .form-group input:invalid:not(:placeholder-shown) {
   border-color: #e74c3c;
+}
+
+/* Estilos para la gestión de Pokémon con pestañas */
+.pokemon-management-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.tabs-container {
+  display: flex;
+  background: white;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0;
+  overflow: hidden;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 15px 20px;
+  border: none;
+  background: #ecf0f1;
+  color: #7f8c8d;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  position: relative;
+}
+
+.tab-button:hover {
+  background: #d5dbdb;
+  color: #2c3e50;
+}
+
+.tab-button.active {
+  background: white;
+  color: #2c3e50;
+  border-bottom: 3px solid #3498db;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: white;
 }

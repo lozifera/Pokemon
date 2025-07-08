@@ -138,6 +138,9 @@ Pok_Mov.belongsTo(Movimiento, { foreignKey: 'id_movimiento' });
 Pokemon_Tipo.belongsTo(Pokemon, { foreignKey: 'id_pokemon' });
 Pokemon_Tipo.belongsTo(Tipo, { foreignKey: 'id_tipo' });
 
+Pokemon_Movimiento.belongsTo(Pokemon, { foreignKey: 'id_pokemon' });
+Pokemon_Movimiento.belongsTo(Movimiento, { foreignKey: 'id_movimiento' });
+
 module.exports = {
     Usuario,
     Pokemon,

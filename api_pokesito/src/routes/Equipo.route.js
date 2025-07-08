@@ -5,7 +5,8 @@ const {
     obtenerEquipoPorId,
     crearEquipo,
     actualizarEquipo,
-    eliminarEquipo
+    eliminarEquipo,
+    obtenerPokemonDeEquipo
 } = require('../controllers/Equipo.controllers');
 
 // RUTAS BÁSICAS PARA EQUIPOS
@@ -24,5 +25,8 @@ router.put('/:id', actualizarEquipo);
 
 // DELETE /api/equipos/:id - Eliminar equipo
 router.delete('/:id', eliminarEquipo);
+
+// GET /api/equipos/:id/pokemon - Obtener Pokémon de un equipo específico
+router.get('/:id/pokemon', obtenerPokemonDeEquipo);
 
 module.exports = router;

@@ -1,16 +1,52 @@
 import React, { useState, useEffect } from 'react'
 import { pokemonService } from '../../services/pokemonService'
-import ImageDiagnostic from '../../components/ImageDiagnostic'
+import { equipoPokemonService } from '../../services/equiposService'
+import { useUserEquipos } from '../../hooks/useUserEquipos'
 import '../../styles/PokemonList.css'
 
 const PokemonList = () => {
+  const { equipos } = useUserEquipos()
   const [pokemons, setPokemons] = useState([])
   const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [selectedPokemon, setSelectedPokemon] = useState(null)
+  const [selectedEquipo, setSelectedEquipo] = useState(null)
 
   useEffect(() => {
     loadPokemons()
   }, [])
+
+  // Función para obtener la URL correcta de la imagen
+  const getImageUrl = (pokemon) => {
+    if (!pokemon) return '/pokemon-placeholder.svg'
+    
+    // Si tiene img_pok, construir la URL completa
+    if (pokemon.img_pok) {
+      // Si ya es una URL completa, usarla tal como está
+      if (pokemon.img_pok.startsWith('http')) {
+        return pokemon.img_pok
+      }
+      // Si es una ruta relativa, construir la URL completa
+      return `http://localhost:3001/${pokemon.img_pok}`
+    }
+    
+    // Si tiene path, construir la URL completa (similar a FoTipo)
+    if (pokemon.path) {
+      return `http://localhost:3001/${pokemon.path}`
+    }
+    
+    // Si tiene imagen, construir la URL completa
+    if (pokemon.imagen) {
+      if (pokemon.imagen.startsWith('http')) {
+        return pokemon.imagen
+      }
+      return `http://localhost:3001/${pokemon.imagen}`
+    }
+    
+    // Fallback al placeholder
+    return '/pokemon-placeholder.svg'
+  }
 
   const loadPokemons = async () => {
     setLoading(true)
@@ -30,6 +66,51 @@ const PokemonList = () => {
     }
   }
 
+  const handleAddToTeam = (pokemon) => {
+    setSelectedPokemon(pokemon)
+    setShowAddModal(true)
+  }
+
+  const handleAddPokemonToEquipo = async () => {
+    if (!selectedEquipo || !selectedPokemon) {
+      alert('Selecciona un equipo y un Pokémon')
+      return
+    }
+
+    try {
+      const pokemonData = {
+        id_equipo: selectedEquipo.id_equipo,
+        id_pokemon: selectedPokemon.id_pokemon,
+        nombre_pok: selectedPokemon.nombre_pok,
+        apodo_pok: selectedPokemon.nombre_pok,
+        img_pok: getImageUrl(selectedPokemon),
+        nivel: 50,
+        experiencia: 0
+      }
+
+      console.log('Agregando Pokémon al equipo:', pokemonData)
+      const result = await equipoPokemonService.addPokemonToEquipo(pokemonData)
+      
+      if (result.success) {
+        alert(`${selectedPokemon.nombre_pok} agregado al equipo ${selectedEquipo.nombre} exitosamente`)
+        setShowAddModal(false)
+        setSelectedPokemon(null)
+        setSelectedEquipo(null)
+      } else {
+        alert(result.message || 'Error al agregar Pokémon al equipo')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      alert('Error al agregar Pokémon al equipo')
+    }
+  }
+
+  const closeAddModal = () => {
+    setShowAddModal(false)
+    setSelectedPokemon(null)
+    setSelectedEquipo(null)
+  }
+
   const filteredPokemons = pokemons.filter(pokemon =>
     pokemon.nombre_pok?.toLowerCase().includes(searchTerm.toLowerCase())
   )
@@ -40,9 +121,6 @@ const PokemonList = () => {
         <h2>🔍 Explorar Pokémon</h2>
         <p>Descubre todos los Pokémon disponibles</p>
       </div>
-
-      {/* Componente de diagnóstico */}
-      <ImageDiagnostic />
 
       <div className="search-section">
         <input
@@ -61,22 +139,14 @@ const PokemonList = () => {
           {searchTerm ? `No se encontraron Pokémon con "${searchTerm}"` : 'No hay Pokémon disponibles'}
         </div>
       ) : (
-        <>
-          {/* Debug info */}
-          <div className="debug-info" style={{ marginBottom: '20px', padding: '10px', backgroundColor: '#f0f0f0', fontSize: '12px' }}>
-            <p><strong>Total Pokémon:</strong> {filteredPokemons.length}</p>
-            <p><strong>Ejemplo de imagen:</strong> {filteredPokemons[0]?.img_pok || 'No disponible'}</p>
-          </div>
-          
-          <div className="pokemon-grid">
-            {filteredPokemons.map(pokemon => (
+        <div className="pokemon-grid">
+          {filteredPokemons.map(pokemon => (
               <div key={pokemon.id_pokemon} className="pokemon-card">
                 <div className="pokemon-image">
                   <img 
-                    src={pokemon.img_pok || pokemon.imagen || '/pokemon-placeholder.svg'} 
+                    src={getImageUrl(pokemon)} 
                     alt={pokemon.nombre_pok}
                     onError={(e) => {
-                      console.log('Error cargando imagen:', pokemon.img_pok || pokemon.imagen)
                       e.target.src = '/pokemon-placeholder.svg'
                     }}
                   />
@@ -101,11 +171,77 @@ const PokemonList = () => {
                       <span className="stat-value">{pokemon.velocidad || 'N/A'}</span>
                     </div>
                   </div>
+                  <div className="pokemon-actions">
+                    <button
+                      className="btn-add-to-team"
+                      onClick={() => handleAddToTeam(pokemon)}
+                      title="Agregar a equipo"
+                    >
+                      ➕ Agregar a Equipo
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
-        </>
+      )}
+
+      {/* Modal para agregar Pokémon a equipo */}
+      {showAddModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Agregar {selectedPokemon?.nombre_pok} a un Equipo</h3>
+              <button className="btn-close" onClick={closeAddModal}>✕</button>
+            </div>
+            
+            <div className="modal-body">
+              <div className="selected-pokemon-info">
+                <img 
+                  src={getImageUrl(selectedPokemon)} 
+                  alt={selectedPokemon?.nombre_pok}
+                  className="modal-pokemon-image"
+                />
+                <h4>{selectedPokemon?.nombre_pok}</h4>
+              </div>
+
+              <div className="team-selection">
+                <h4>Selecciona un Equipo:</h4>
+                {equipos.length === 0 ? (
+                  <p>No tienes equipos creados. Ve a Team Builder para crear uno.</p>
+                ) : (
+                  <div className="team-list">
+                    {equipos.map(equipo => (
+                      <div 
+                        key={equipo.id_equipo}
+                        className={`team-option ${selectedEquipo?.id_equipo === equipo.id_equipo ? 'selected' : ''}`}
+                        onClick={() => setSelectedEquipo(equipo)}
+                      >
+                        <span className="team-name">{equipo.nombre}</span>
+                        <span className="team-pokemon-count">
+                          {equipo.pokemon_count || 0}/6 Pokémon
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="modal-actions">
+                <button 
+                  className="btn-confirm" 
+                  onClick={handleAddPokemonToEquipo}
+                  disabled={!selectedEquipo}
+                >
+                  Agregar al Equipo
+                </button>
+                <button className="btn-cancel" onClick={closeAddModal}>
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )

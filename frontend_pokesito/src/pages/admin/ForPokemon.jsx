@@ -8,9 +8,13 @@ import {
 import { habilidadesService } from '../../services/habilidades'
 import { movimientosService } from '../../services/movimientos'
 import { tipoService } from '../../services/tipoService'
+import ListaPokemons from './ListaPokemons'
 import '../../styles/ForPokemon.css'
 
 const ForPokemon = () => {
+  // Estado para controlar la vista activa
+  const [activeTab, setActiveTab] = useState('lista') // 'lista' o 'crear'
+
   // Estados para el formulario principal
   const [formData, setFormData] = useState({
     nombre_pok: '',
@@ -213,6 +217,112 @@ const ForPokemon = () => {
     }
   }
 
+  // Función para crear relaciones Pokemon-Movimiento
+  const createPokemonMovimientos = async (pokemonId, movimientos) => {
+    console.log('🔗 Creando relaciones Pokemon-Movimiento para Pokemon ID:', pokemonId)
+    console.log('📝 Movimientos a asignar:', movimientos)
+    
+    try {
+      const promises = movimientos.map(async (movimientoId) => {
+        const data = {
+          id_pokemon: pokemonId,
+          id_movimiento: movimientoId
+        }
+        
+        console.log('📡 Enviando POST a /api/pokemon-movimiento:', data)
+        const response = await fetch('http://localhost:3001/api/pokemon-movimiento', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        })
+        
+        const result = await response.json()
+        console.log('📥 Respuesta Pokemon-Movimiento:', result)
+        return result
+      })
+      
+      const results = await Promise.all(promises)
+      console.log('✅ Todas las relaciones Pokemon-Movimiento creadas:', results)
+      return { success: true, data: results }
+    } catch (error) {
+      console.error('❌ Error al crear relaciones Pokemon-Movimiento:', error)
+      return { success: false, message: error.message }
+    }
+  }
+
+  // Función para crear relaciones Pokemon-Habilidad
+  const createPokemonHabilidades = async (pokemonId, habilidades) => {
+    console.log('🔗 Creando relaciones Pokemon-Habilidad para Pokemon ID:', pokemonId)
+    console.log('📝 Habilidades a asignar:', habilidades)
+    
+    try {
+      const promises = habilidades.map(async (habilidad) => {
+        const data = {
+          id_pokemon: pokemonId,
+          id_habilidad: habilidad.id_habilidad,
+          tipo: habilidad.tipo
+        }
+        
+        console.log('📡 Enviando POST a /api/pokemon-habilidad:', data)
+        const response = await fetch('http://localhost:3001/api/pokemon-habilidad', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        })
+        
+        const result = await response.json()
+        console.log('📥 Respuesta Pokemon-Habilidad:', result)
+        return result
+      })
+      
+      const results = await Promise.all(promises)
+      console.log('✅ Todas las relaciones Pokemon-Habilidad creadas:', results)
+      return { success: true, data: results }
+    } catch (error) {
+      console.error('❌ Error al crear relaciones Pokemon-Habilidad:', error)
+      return { success: false, message: error.message }
+    }
+  }
+
+  // Función para crear relaciones Pokemon-Tipo
+  const createPokemonTipos = async (pokemonId, tipos) => {
+    console.log('🔗 Creando relaciones Pokemon-Tipo para Pokemon ID:', pokemonId)
+    console.log('📝 Tipos a asignar:', tipos)
+    
+    try {
+      const promises = tipos.map(async (tipoId) => {
+        const data = {
+          id_pokemon: pokemonId,
+          id_tipo: tipoId
+        }
+        
+        console.log('📡 Enviando POST a /api/pokemon-tipo:', data)
+        const response = await fetch('http://localhost:3001/api/pokemon-tipo', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        })
+        
+        const result = await response.json()
+        console.log('📥 Respuesta Pokemon-Tipo:', result)
+        return result
+      })
+      
+      const results = await Promise.all(promises)
+      console.log('✅ Todas las relaciones Pokemon-Tipo creadas:', results)
+      return { success: true, data: results }
+    } catch (error) {
+      console.error('❌ Error al crear relaciones Pokemon-Tipo:', error)
+      return { success: false, message: error.message }
+    }
+  }
+
   // Validar formulario
   const validateForm = () => {
     const newErrors = {}
@@ -279,42 +389,67 @@ const ForPokemon = () => {
       }
 
       console.log('✅ Pokemon creado/actualizado exitosamente')
-      // const pokemonId = isEditing ? editingPokemon.id_pokemon : pokemonResult.data.id_pokemon
+      
+      // Obtener el ID del Pokémon 
+      let pokemonId
+      if (isEditing) {
+        pokemonId = editingPokemon.id_pokemon
+      } else {
+        // Para nuevo Pokémon, obtener ID de la respuesta
+        pokemonId = pokemonResult.data?.id_pokemon || pokemonResult.data?.id
+      }
 
-      // Solo procesar relaciones si tenemos selecciones
+      console.log('🆔 Pokemon ID para relaciones:', pokemonId)
+      
+      if (!pokemonId) {
+        throw new Error('No se pudo obtener el ID del Pokémon creado')
+      }
+
+      // Procesar relaciones después de crear/actualizar el Pokémon
       console.log('🔗 Procesando relaciones...')
       console.log('  - Habilidades seleccionadas:', selectedHabilidades)
       console.log('  - Movimientos seleccionados:', selectedMovimientos)
       console.log('  - Tipos seleccionados:', selectedTipos)
 
-      // Por ahora, skip las relaciones para probar solo la creación básica
-      /*
-      // Actualizar relaciones
-      const relationPromises = []
+      const relationResults = []
 
-      // Actualizar habilidades
-      if (selectedHabilidades.length > 0) {
-        relationPromises.push(
-          pokemonHabilidadService.updatePokemonHabilidades(pokemonId, selectedHabilidades)
-        )
-      }
-
-      // Actualizar movimientos
-      if (selectedMovimientos.length > 0) {
-        relationPromises.push(
-          pokemonMovimientoService.updatePokemonMovimientos(pokemonId, selectedMovimientos)
-        )
-      }
-
-      // Actualizar tipos
+      // Crear relaciones Pokemon-Tipo (obligatorio - al menos uno)
       if (selectedTipos.length > 0) {
-        relationPromises.push(
-          pokemonTipoService.updatePokemonTipos(pokemonId, selectedTipos)
-        )
+        console.log('🎯 Creando relaciones Pokemon-Tipo...')
+        const tiposResult = await createPokemonTipos(pokemonId, selectedTipos)
+        relationResults.push({ type: 'tipos', result: tiposResult })
+        
+        if (!tiposResult.success) {
+          console.error('❌ Error al crear relaciones Pokemon-Tipo:', tiposResult.message)
+          throw new Error(`Error al asignar tipos: ${tiposResult.message}`)
+        }
       }
 
-      await Promise.all(relationPromises)
-      */
+      // Crear relaciones Pokemon-Habilidad (opcional)
+      if (selectedHabilidades.length > 0) {
+        console.log('🎯 Creando relaciones Pokemon-Habilidad...')
+        const habilidadesResult = await createPokemonHabilidades(pokemonId, selectedHabilidades)
+        relationResults.push({ type: 'habilidades', result: habilidadesResult })
+        
+        if (!habilidadesResult.success) {
+          console.warn('⚠️ Error al crear relaciones Pokemon-Habilidad:', habilidadesResult.message)
+          // No lanzar error, las habilidades son opcionales
+        }
+      }
+
+      // Crear relaciones Pokemon-Movimiento (opcional)
+      if (selectedMovimientos.length > 0) {
+        console.log('🎯 Creando relaciones Pokemon-Movimiento...')
+        const movimientosResult = await createPokemonMovimientos(pokemonId, selectedMovimientos)
+        relationResults.push({ type: 'movimientos', result: movimientosResult })
+        
+        if (!movimientosResult.success) {
+          console.warn('⚠️ Error al crear relaciones Pokemon-Movimiento:', movimientosResult.message)
+          // No lanzar error, los movimientos son opcionales
+        }
+      }
+
+      console.log('📊 Resumen de relaciones creadas:', relationResults)
 
       alert(isEditing ? 'Pokemon actualizado exitosamente' : 'Pokemon creado exitosamente')
       
@@ -330,12 +465,33 @@ const ForPokemon = () => {
   }
 
   return (
-    <div className="form-pokemon-container">
-      <div className="form-pokemon-header">
-        <h2>{isEditing ? 'Editar Pokemon' : 'Crear Nuevo Pokemon'}</h2>
+    <div className="pokemon-management-container">
+      {/* Navegación por pestañas */}
+      <div className="tabs-container">
+        <button 
+          className={`tab-button ${activeTab === 'lista' ? 'active' : ''}`}
+          onClick={() => setActiveTab('lista')}
+        >
+          📋 Lista de Pokémon
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'crear' ? 'active' : ''}`}
+          onClick={() => setActiveTab('crear')}
+        >
+          ➕ Crear Pokémon
+        </button>
       </div>
 
-      <form onSubmit={handleSubmit} className="form-pokemon">
+      {/* Contenido de las pestañas */}
+      {activeTab === 'lista' ? (
+        <ListaPokemons />
+      ) : (
+        <div className="form-pokemon-container">
+          <div className="form-pokemon-header">
+            <h2>{isEditing ? 'Editar Pokemon' : 'Crear Nuevo Pokemon'}</h2>
+          </div>
+
+          <form onSubmit={handleSubmit} className="form-pokemon">
         {/* Información básica del Pokemon */}
         <div className="form-section">
           <h3>Información Básica</h3>
@@ -575,6 +731,8 @@ const ForPokemon = () => {
           </button>
         </div>
       </form>
+        </div>
+      )}
     </div>
   )
 }

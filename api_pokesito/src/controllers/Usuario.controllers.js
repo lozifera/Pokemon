@@ -323,6 +323,87 @@ const obtenerPerfil = async (req, res) => {
     }
 };
 
+// Cambiar contraseña
+const cambiarContrasena = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { contrasenaActual, contrasenaNueva, confirmarContrasena } = req.body;
+        const usuarioLogueado = req.usuario;
+
+        // Validar campos requeridos
+        if (!contrasenaActual || !contrasenaNueva || !confirmarContrasena) {
+            return res.status(400).json({
+                success: false,
+                message: 'Todos los campos son requeridos (contrasenaActual, contrasenaNueva, confirmarContrasena)'
+            });
+        }
+
+        // Validar que las contraseñas nuevas coincidan
+        if (contrasenaNueva !== confirmarContrasena) {
+            return res.status(400).json({
+                success: false,
+                message: 'La nueva contraseña y la confirmación no coinciden'
+            });
+        }
+
+        // Validar longitud de la nueva contraseña
+        if (contrasenaNueva.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: 'La nueva contraseña debe tener al menos 6 caracteres'
+            });
+        }
+
+        // Verificar permisos: solo el mismo usuario o admin
+        if (usuarioLogueado.id !== parseInt(id) && !usuarioLogueado.admin) {
+            return res.status(403).json({
+                success: false,
+                message: 'No tienes permisos para cambiar esta contraseña'
+            });
+        }
+
+        // Buscar el usuario
+        const usuario = await Usuario.findByPk(id);
+        if (!usuario) {
+            return res.status(404).json({
+                success: false,
+                message: 'Usuario no encontrado'
+            });
+        }
+
+        // Verificar contraseña actual (solo si no es admin cambiando otra contraseña)
+        if (usuarioLogueado.id === parseInt(id)) {
+            const isValidCurrentPassword = await bcrypt.compare(contrasenaActual, usuario.contraseña);
+            if (!isValidCurrentPassword) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'La contraseña actual es incorrecta'
+                });
+            }
+        }
+
+        // Encriptar la nueva contraseña
+        const salt = await bcrypt.genSalt(10);
+        const hashedNewPassword = await bcrypt.hash(contrasenaNueva, salt);
+
+        // Actualizar contraseña
+        await usuario.update({ contraseña: hashedNewPassword });
+
+        res.status(200).json({
+            success: true,
+            message: 'Contraseña cambiada exitosamente'
+        });
+
+    } catch (error) {
+        console.error('Error al cambiar contraseña:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error interno del servidor',
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
     loginUsuario,
     crearUsuario,
@@ -330,5 +411,6 @@ module.exports = {
     obtenerUsuarioPorId,
     actualizarUsuario,
     eliminarUsuario,
-    obtenerPerfil
+    obtenerPerfil,
+    cambiarContrasena
 };

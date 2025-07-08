@@ -1,4 +1,4 @@
-const { Pokemon } = require('../models');
+const { Pokemon, Pokemon_Movimiento, Pokemon_Habilidad, Movimiento, Habilidad } = require('../models');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -82,6 +82,49 @@ const obtenerPokemonPorId = async (req, res) => {
         });
     } catch (error) {
         console.error('Error al obtener pokémon:', error);
+        res.status(500).json({
+            exito: false,
+            mensaje: 'Error interno del servidor',
+            error: error.message
+        });
+    }
+};
+
+// Buscar pokémon por nombre
+const buscarPokemonPorNombre = async (req, res) => {
+    try {
+        const { nombre } = req.query;
+
+        if (!nombre) {
+            return res.status(400).json({
+                exito: false,
+                mensaje: 'El parámetro "nombre" es requerido'
+            });
+        }
+
+        const pokemon = await Pokemon.findAll({
+            where: {
+                nombre_pok: {
+                    [require('sequelize').Op.iLike]: `%${nombre}%`
+                }
+            },
+            order: [['id_pokemon', 'ASC']]
+        });
+
+        if (pokemon.length === 0) {
+            return res.status(404).json({
+                exito: false,
+                mensaje: 'No se encontraron pokémon con ese nombre'
+            });
+        }
+
+        res.status(200).json({
+            exito: true,
+            mensaje: 'Pokémon encontrados exitosamente',
+            datos: pokemon
+        });
+    } catch (error) {
+        console.error('Error al buscar pokémon:', error);
         res.status(500).json({
             exito: false,
             mensaje: 'Error interno del servidor',
@@ -305,34 +348,47 @@ const eliminarPokemon = async (req, res) => {
     }
 };
 
-// Buscar pokémon por nombre
-const buscarPokemonPorNombre = async (req, res) => {
+// Obtener movimientos de un Pokémon específico
+const obtenerMovimientosPokemon = async (req, res) => {
     try {
-        const { nombre } = req.query;
+        const { id } = req.params;
 
-        if (!nombre) {
-            return res.status(400).json({
+        // Verificar que el Pokémon existe
+        const pokemon = await Pokemon.findByPk(id);
+        if (!pokemon) {
+            return res.status(404).json({
                 exito: false,
-                mensaje: 'El parámetro nombre es requerido'
+                mensaje: 'Pokémon no encontrado'
             });
         }
 
-        const pokemon = await Pokemon.findAll({
-            where: {
-                nombre_pok: {
-                    [require('sequelize').Op.iLike]: `%${nombre}%`
+        // Obtener movimientos del Pokémon
+        const movimientos = await Pokemon_Movimiento.findAll({
+            where: { id_pokemon: id },
+            include: [
+                {
+                    model: Movimiento,
+                    attributes: ['id_movimiento', 'nombre', 'poder', 'ACC', 'PP', 'descripcion']
                 }
-            },
-            order: [['nombre_pok', 'ASC']]
+            ],
+            order: [['id_pokemon', 'ASC'], ['id_movimiento', 'ASC']]
         });
 
         res.status(200).json({
             exito: true,
-            mensaje: `Se encontraron ${pokemon.length} pokémon que coinciden con la búsqueda`,
-            datos: pokemon
+            mensaje: 'Movimientos del Pokémon obtenidos exitosamente',
+            datos: {
+                pokemon: {
+                    id_pokemon: pokemon.id_pokemon,
+                    nombre_pok: pokemon.nombre_pok,
+                    numero_pok: pokemon.numero_pok
+                },
+                movimientos: movimientos,
+                total_movimientos: movimientos.length
+            }
         });
     } catch (error) {
-        console.error('Error al buscar pokémon:', error);
+        console.error('Error al obtener movimientos del Pokémon:', error);
         res.status(500).json({
             exito: false,
             mensaje: 'Error interno del servidor',
@@ -341,12 +397,64 @@ const buscarPokemonPorNombre = async (req, res) => {
     }
 };
 
+// Obtener habilidades de un Pokémon específico
+const obtenerHabilidadesPokemon = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Verificar que el Pokémon existe
+        const pokemon = await Pokemon.findByPk(id);
+        if (!pokemon) {
+            return res.status(404).json({
+                exito: false,
+                mensaje: 'Pokémon no encontrado'
+            });
+        }
+
+        // Obtener habilidades del Pokémon
+        const habilidades = await Pokemon_Habilidad.findAll({
+            where: { id_pokemon: id },
+            include: [
+                {
+                    model: Habilidad,
+                    attributes: ['id_habilidad', 'nombre', 'descripcion']
+                }
+            ],
+            order: [['id_pokemon', 'ASC'], ['id_habilidad', 'ASC']]
+        });
+
+        res.status(200).json({
+            exito: true,
+            mensaje: 'Habilidades del Pokémon obtenidas exitosamente',
+            datos: {
+                pokemon: {
+                    id_pokemon: pokemon.id_pokemon,
+                    nombre_pok: pokemon.nombre_pok,
+                    numero_pok: pokemon.numero_pok
+                },
+                habilidades: habilidades,
+                total_habilidades: habilidades.length
+            }
+        });
+    } catch (error) {
+        console.error('Error al obtener habilidades del Pokémon:', error);
+        res.status(500).json({
+            exito: false,
+            mensaje: 'Error interno del servidor',
+            error: error.message
+        });
+    }
+};
+
+// Obtener artículos compatibles con un Pokémon (todos los artículos disponibles)
 module.exports = {
     obtenerTodosLosPokemon,
     obtenerPokemonPorId,
+    buscarPokemonPorNombre,
     crearPokemon,
     actualizarPokemon,
     eliminarPokemon,
-    buscarPokemonPorNombre,
+    obtenerMovimientosPokemon,
+    obtenerHabilidadesPokemon,
     upload
 };

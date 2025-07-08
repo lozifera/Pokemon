@@ -135,6 +135,198 @@
   font-size: 1rem;
 }
 
+.pokemon-actions {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.btn-add-to-team {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.btn-add-to-team:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(40, 167, 69, 0.4);
+}
+
+.btn-add-to-team:active {
+  transform: translateY(0);
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.3rem;
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.btn-close:hover {
+  background: #f8f9fa;
+  color: #333;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.selected-pokemon-info {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 15px;
+}
+
+.modal-pokemon-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.selected-pokemon-info h4 {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.team-selection h4 {
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.team-list {
+  margin-bottom: 20px;
+}
+
+.team-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.team-option:hover {
+  background: #e9ecef;
+}
+
+.team-option.selected {
+  background: #007bff;
+  color: white;
+  border-color: #0056b3;
+}
+
+.team-name {
+  font-weight: 600;
+}
+
+.team-pokemon-count {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+}
+
+.btn-confirm {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-confirm:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.4);
+}
+
+.btn-confirm:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
+
+.btn-cancel {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background: #545b62;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .pokemon-list-container {

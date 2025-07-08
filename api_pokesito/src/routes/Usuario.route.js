@@ -7,7 +7,8 @@ const {
     obtenerUsuarioPorId,
     actualizarUsuario,
     eliminarUsuario,
-    obtenerPerfil
+    obtenerPerfil,
+    cambiarContrasena
 } = require('../controllers/Usuario.controllers');
 
 const {
@@ -22,8 +23,9 @@ router.post('/registro', crearUsuario);
 
 // RUTAS PROTEGIDAS (requieren token)
 router.get('/perfil', verificarToken, obtenerPerfil);
+router.patch('/:id/cambiar-contrasena', verificarToken, verificarUsuarioOAdmin, cambiarContrasena);
 router.get('/:id', verificarToken, verificarUsuarioOAdmin, obtenerUsuarioPorId);
-router.put('/:id', verificarToken, verificarUsuarioOAdmin, actualizarUsuario);
+router.patch('/:id', verificarToken, verificarUsuarioOAdmin, actualizarUsuario);
 
 // RUTAS SOLO ADMIN (requieren token + permisos admin)
 router.get('/', verificarToken, verificarAdmin, obtenerUsuarios);

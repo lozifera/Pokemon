@@ -1,4 +1,4 @@
-const { Equipo } = require('../models');
+const { Equipo, Equipo_Pokemon } = require('../models');
 
 // Obtener todos los equipos
 const obtenerTodosLosEquipos = async (req, res) => {
@@ -252,10 +252,54 @@ const eliminarEquipo = async (req, res) => {
     }
 };
 
+// Obtener Pokémon de un equipo específico
+const obtenerPokemonDeEquipo = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Verificar que el equipo existe
+        const equipo = await Equipo.findByPk(id);
+        if (!equipo) {
+            return res.status(404).json({
+                exito: false,
+                mensaje: 'Equipo no encontrado'
+            });
+        }
+
+        // Obtener todos los Pokémon del equipo con información básica
+        const pokemonEquipo = await Equipo_Pokemon.findAll({
+            where: { id_equipo: id },
+            order: [['id_equipo_pokemon', 'ASC']]
+        });
+
+        res.status(200).json({
+            exito: true,
+            mensaje: 'Pokémon del equipo obtenidos exitosamente',
+            datos: {
+                equipo: {
+                    id_equipo: equipo.id_equipo,
+                    nombre: equipo.nombre,
+                    id_usuario: equipo.id_usuario
+                },
+                pokemon: pokemonEquipo,
+                total_pokemon: pokemonEquipo.length
+            }
+        });
+    } catch (error) {
+        console.error('Error al obtener Pokémon del equipo:', error);
+        res.status(500).json({
+            exito: false,
+            mensaje: 'Error interno del servidor',
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
     obtenerTodosLosEquipos,
     obtenerEquipoPorId,
     crearEquipo,
     actualizarEquipo,
-    eliminarEquipo
+    eliminarEquipo,
+    obtenerPokemonDeEquipo
 };

@@ -46,11 +46,11 @@ export const catService = {
       console.log('📡 catService: Respuesta completa:', response)
       console.log('📦 catService: Data de respuesta:', response.data)
       
-      // El backend devuelve { success: true, message: "...", data: [...] }
+      // El backend devuelve { mensaje: "...", datos: [...] }
       return {
         success: true,
-        data: response.data.data, // Aquí está el array de categorías
-        message: response.data.message || 'Categorías obtenidas exitosamente'
+        data: response.data.datos || response.data.data || response.data, // Probar diferentes estructuras
+        message: response.data.mensaje || response.data.message || 'Categorías obtenidas exitosamente'
       }
     } catch (error) {
       console.error('💥 catService: Error en getAllCategorias:', error)
@@ -59,7 +59,7 @@ export const catService = {
       return {
         success: false,
         data: null,
-        message: error.response?.data?.message || error.message || 'Error al obtener categorías'
+        message: error.response?.data?.mensaje || error.response?.data?.message || error.message || 'Error al obtener categorías'
       }
     }
   },
